@@ -22,4 +22,4 @@ data_meta = pd.read_csv(file_path2, usecols=columns_to_import)
 merged_data = pd.merge(data_utilitarian, data_meta, on='parent_asin', how='left')
 
 # Display the merged data
-print(merged_data.head())
+print(merged_data.head(3))
