@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 # Import the Review data
-file_path1 = '/Users/paulahofmann/Documents/Coding/Online-Review/DataPreperation/data_utilitarian_filter.csv'
+file_path1 = '/Users/paulahofmann/Documents/Coding/Online-Review/DataBase/Without Meta/data_utilitarian_filter.csv'
 data_review= pd.read_csv(file_path1)
 
 
