@@ -65,7 +65,7 @@ def word_count(df):
 # Function for Number of sentences in a review (Nsents) 
 def sentence_count(df):
     # Define a function to count the number of sentences in a review
-    def count_sentences(text):
+    def word_count(text):
         # Split the text into sentences
         sentences = text.split(".")
         
@@ -75,7 +75,7 @@ def sentence_count(df):
         return len(sentences)
 
     # Apply the function to the 'text' column to calculate sentence counts
-    df['sentence_count'] = df['text'].apply(count_sentences)
+    df['sentence_count'] = df['text'].apply(word_count)
     return df
 
 
@@ -84,7 +84,7 @@ def add_average_sentence_length(df):
     # Define a function to calculate the average length of sentences in terms of words
     def calculate_average_length_of_sentences(text):
         # Call the existing function to count sentences
-        num_sentences = count_sentences(text)
+        num_sentences = sentence_count(text)
 
         # Avoid division by zero
         if num_sentences == 0:
@@ -107,7 +107,7 @@ def add_average_sentence_length(df):
 # Function for Title Length (TL)
 def title_length(df):
     # Count the number of titles
-    df['title_length'] = df['title'].apply(lambda x: len(x))
+    df['title_length'] = df['title_x'].apply(lambda x: len(x))
     return df
 
 
