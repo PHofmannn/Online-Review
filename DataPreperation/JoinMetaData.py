@@ -4,12 +4,12 @@ import pandas as pd
 import numpy as np
 
 # Import the Review data
-file_path1 = '/Users/paulahofmann/Documents/Coding/Online-Review/DataBase/Without Meta/data_utilitarian_filter.csv'
+file_path1 = '/Users/paulahofmann/Documents/Coding/Online-Review/DataBase/Without Meta/data_utilitarian_razor.csv'
 data_review= pd.read_csv(file_path1)
 
 
 # Importing Meta Data
-file_path2 = '/Users/paulahofmann/Documents/Coding/Online-Review/SelectingData/Appliance/top_200_products_Appliances.csv'
+file_path2 = '/Users/paulahofmann/Documents/Coding/Online-Review/SelectingData/Beauty & Care/top_200_products_BeautyCare.csv'
 
 # Columns to import
 columns_to_import = ['main_category', 'title', 'average_rating', 'rating_number', 'features', 'price', 'parent_asin']
@@ -25,4 +25,4 @@ meta_data_Review = pd.merge(data_review, data_meta, on='parent_asin', how='left'
 print (meta_data_Review.head(3))
 
 # Save the data, please modify the name of the file
-meta_data_Review.to_csv('/Users/paulahofmann/Documents/Coding/Online-Review/DataPreperation/Meta_utilitarian_filter.csv', index=False)
+meta_data_Review.to_csv('/Users/paulahofmann/Documents/Coding/Online-Review/DataPreperation/Meta_utilitarian_razor.csv', index=False)
