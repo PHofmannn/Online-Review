@@ -5,7 +5,7 @@ import numpy as np
 
 # Import the Review data
 file_path1 = '/Users/paulahofmann/Documents/Coding/Online-Review/DataPreperation/data_utilitarian_filter.csv'
-data_utilitarian = pd.read_csv(file_path1)
+data_review= pd.read_csv(file_path1)
 
 
 # Importing Meta Data
@@ -19,10 +19,10 @@ data_meta = pd.read_csv(file_path2, usecols=columns_to_import)
 
 
 # Merge the data based on parent_asin
-meta_data_Utilitarian_Filter = pd.merge(data_utilitarian, data_meta, on='parent_asin', how='left')
+meta_data_Review = pd.merge(data_review, data_meta, on='parent_asin', how='left')
 
 # Display the merged Data
-print (meta_data_Utilitarian_Filter.head(3))
+print (meta_data_Review.head(3))
 
-# Save the data
-meta_data_Utilitarian_Filter.to_csv('/Users/paulahofmann/Documents/Coding/Online-Review/DataPreperation/meta_data_utilitarian_filter.csv', index=False)
+# Save the data, please modify the name of the file
+meta_data_Review.to_csv('/Users/paulahofmann/Documents/Coding/Online-Review/DataPreperation/Meta_utilitarian_filter.csv', index=False)
