@@ -2,8 +2,10 @@ import spacy
 import pandas as pd
 from readability import Readability
 import nltk
-
+import re
 nltk.download('punkt')
+
+
 
 # Function for calculating the helfpul ratio (HR) of a review
 def calculate_helpful_ratio(df):
@@ -14,7 +16,6 @@ def calculate_helpful_ratio(df):
     df['helpful_ratio'] = df['helpful_vote'] / total_helpful_votes
     
     return df
-
 
 
 # Load spaCy English model and prepare function to get the POS tags  for counting adverbs, adjectives and nouns
@@ -66,45 +67,37 @@ def word_count(df):
 
 
 # Function for counting the number of sentences in a review
-def sentence_count(df, text_column):
+def sentence_count(df):
     def count_sentences(text):
         # Ensure each sentence ends with '.', '?', or '!'
-        text = text.strip()  # Remove leading and trailing whitespace
+        text = str(text).strip()  # Convert to string and remove leading/trailing whitespace
         if not re.search(r'[.!?]$', text):
             text += '.'  # Add a period at the end if missing
 
         sentences = nltk.sent_tokenize(text)
         return len(sentences)
 
-    df['sentence_count'] = df[text_column].apply(count_sentences)
+    df['sentence_count'] = df['text'].apply(count_sentences)
     return df
 
 
-
+# Function for counting the average number of words per sentence
 def average_words_per_sentence(df):
-    def calculate_avg_words_per_sentence(text):
-        # Tokenize the text into sentences
-        sentences = nltk.sent_tokenize(text)
+    def calculate_avg_words_per_sentence(text, num_sentences):
+        # Tokenize the text into words
+        words = nltk.word_tokenize(text)
         
-        # Initialize variables to store total words and total sentences
-        total_words = 0
-        total_sentences = len(sentences)
-        
-        # Iterate through each sentence to count the words
-        for sentence in sentences:
-            # Tokenize the sentence into words
-            words = nltk.word_tokenize(sentence)
-            # Increment total words by the number of words in the sentence
-            total_words += len(words)
+        # Calculate the total number of words
+        total_words = len(words)
         
         # Calculate the average words per sentence
-        if total_sentences == 0:
+        if num_sentences == 0:
             return 0
         else:
-            return total_words / total_sentences
+            return total_words / num_sentences
 
     # Apply the function to the 'text' column to calculate average words per sentence
-    df['avg_words_per_sentence'] = df['text'].apply(calculate_avg_words_per_sentence)
+    df['avg_words_per_sentence'] = df.apply(lambda row: calculate_avg_words_per_sentence(row['text'], row['sentence_count']), axis=1)
     return df
 
 
@@ -117,21 +110,24 @@ def title_length(df):
 
 
 
-# Function for calculating the Flesch-Kincaid score
 def calculate_flesch_kincaid(df):
     # Initialize Readability object with the text
     readability_scores = []
 
     for text in df['text']:
-        r = Readability(text)
-        # Calculate the Flesch-Kincaid score
-        score = r.flesch_kincaid().score
-        readability_scores.append(score)
+        # Check if the text contains at least 100 words
+        if len(text.split()) >= 100:
+            r = Readability(text)
+            # Calculate the Flesch-Kincaid score
+            score = r.flesch_kincaid().score
+            readability_scores.append(score)
+        else:
+            # If the text has fewer than 100 words, append NaN
+            readability_scores.append(float('nan'))
 
     # Add the Flesch-Kincaid score as a new column to the DataFrame
     df['F–K_score'] = readability_scores
     return df
-
 
 
 # Function for calculating the review extremity score (Difference between avg Rating and Rating)
@@ -141,19 +137,17 @@ def calculate_review_extremity(df):
     return df
 
 
-# Function for calculating the Elapsed Time (ET) between the review and the product release
+
+# Caöculate the elapsed time since the review was posted
 def calculate_elapsed_time(df):
     # Convert timestamp column to datetime format
     df['timestamp'] = pd.to_datetime(df['timestamp'])
     
-    # Find the most recent date in the 'timestamp' column
-    recent_date = df['timestamp'].max()
+    # Find the most recent timestamp
+    recent_timestamp = df['timestamp'].max()
     
-    # Convert the recent date to Unix time format
-    recent_unix_time = recent_date.timestamp()
-    
-    # Calculate elapsed time for each review
-    df['elapsed_time'] = (recent_unix_time - df['timestamp']).dt.total_seconds()
+    # Calculate elapsed time for each review in days
+    df['elapsed_time_days'] = (recent_timestamp - df['timestamp']).dt.days
     
     return df
 
@@ -167,7 +161,7 @@ def feature_building(df):
     df = count_pos_tags(df)
     df = word_count(df)
     df = sentence_count(df)
-    df = add_average_sentence_length(df)
+    df = average_words_per_sentence(df)
     df = title_length(df)
     df = calculate_flesch_kincaid(df)
     df = calculate_review_extremity(df)
