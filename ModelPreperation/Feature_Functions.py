@@ -163,8 +163,24 @@ def calculate_elapsed_time(df):
 # Function for checking whether the review contains images
 def image_check(df):
     # Check if the value in the "images" column is an empty list
-    df['image'] = df['images'].apply(lambda x: 0 if x == [] else 1)
+    df['image'] = df['images'].apply(lambda x: 0 if x == "[]" else 1)
     return df
+
+
+
+# Function for updating timestamp information
+def extract_timestamp(df):
+    # Convert timestamp column to datetime format
+    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    
+    # Extract year, month, and day from the timestamp
+    df['year'] = df['timestamp'].dt.year
+    df['month'] = df['timestamp'].dt.month
+    df['day'] = df['timestamp'].dt.day
+    df['hour'] = df['timestamp'].dt.hour
+
+    return df
+
 
 
 ## Applying all functions to the dataframe
@@ -181,7 +197,7 @@ def feature_building(df):
     df = calculate_review_extremity(df)
     df = calculate_elapsed_time(df)
     df = image_check(df)
-
+    df = extract_timestamp(df)
     return df
 
 
