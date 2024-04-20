@@ -159,6 +159,7 @@ def calculate_elapsed_time(df):
     
     return df
 
+
 # Function for checking whether the review contains images
 def image_check(df):
     # Check if the value in the "images" column is an empty list
@@ -179,6 +180,7 @@ def feature_building(df):
     df = calculate_flesch_kincaid(df)
     df = calculate_review_extremity(df)
     df = calculate_elapsed_time(df)
+    df = image_check(df)
 
     return df
 
