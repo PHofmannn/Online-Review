@@ -1,6 +1,9 @@
 import spacy
 import pandas as pd
 from readability import Readability
+import nltk
+
+nltk.download('punkt')
 
 # Function for calculating the helfpul ratio (HR) of a review
 def calculate_helpful_ratio(df):
@@ -62,44 +65,46 @@ def word_count(df):
 
 
 
-# Function for Number of sentences in a review (Nsents) 
-def sentence_count(df):
-    # Define a function to count the number of sentences in a review
-    def word_count(text):
-        # Split the text into sentences
-        sentences = text.split(".")
-        
-        # Remove empty strings from the list
-        sentences = [sentence for sentence in sentences if sentence]
-        
+# Function for counting the number of sentences in a review
+def sentence_count(df, text_column):
+    def count_sentences(text):
+        # Ensure each sentence ends with '.', '?', or '!'
+        text = text.strip()  # Remove leading and trailing whitespace
+        if not re.search(r'[.!?]$', text):
+            text += '.'  # Add a period at the end if missing
+
+        sentences = nltk.sent_tokenize(text)
         return len(sentences)
 
-    # Apply the function to the 'text' column to calculate sentence counts
-    df['sentence_count'] = df['text'].apply(word_count)
+    df['sentence_count'] = df[text_column].apply(count_sentences)
     return df
 
 
 
-def add_average_sentence_length(df):
-    # Define a function to calculate the average length of sentences in terms of words
-    def calculate_average_length_of_sentences(text):
-        # Call the existing function to count sentences
-        num_sentences = sentence_count(text)
-
-        # Avoid division by zero
-        if num_sentences == 0:
+def average_words_per_sentence(df):
+    def calculate_avg_words_per_sentence(text):
+        # Tokenize the text into sentences
+        sentences = nltk.sent_tokenize(text)
+        
+        # Initialize variables to store total words and total sentences
+        total_words = 0
+        total_sentences = len(sentences)
+        
+        # Iterate through each sentence to count the words
+        for sentence in sentences:
+            # Tokenize the sentence into words
+            words = nltk.word_tokenize(sentence)
+            # Increment total words by the number of words in the sentence
+            total_words += len(words)
+        
+        # Calculate the average words per sentence
+        if total_sentences == 0:
             return 0
+        else:
+            return total_words / total_sentences
 
-        # Split the text into words
-        words = text.split()
-
-        # Calculate the average length of sentences in terms of words
-        average_length_of_sentences = len(words) / max(1, num_sentences)
-
-        return average_length_of_sentences
-
-    # Apply the function to the 'text' column to calculate average sentence length
-    df['avg_sentence_length'] = df['text'].apply(calculate_average_length_of_sentences)
+    # Apply the function to the 'text' column to calculate average words per sentence
+    df['avg_words_per_sentence'] = df['text'].apply(calculate_avg_words_per_sentence)
     return df
 
 
