@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 # Import the Review data
-file_path1 = '/Users/paulahofmann/Documents/Coding/Online-Review/DataBase/Without Meta/data_utilitarian_razor.csv'
+file_path1 = '/Users/paulahofmann/Documents/Coding/Online-Review/DataBase/Without Meta/data_hedonic_Cleaned.csv'
 data_review= pd.read_csv(file_path1)
 
 
@@ -25,4 +25,4 @@ meta_data_Review = pd.merge(data_review, data_meta, on='parent_asin', how='left'
 print (meta_data_Review.head(3))
 
 # Save the data, please modify the name of the file
-meta_data_Review.to_csv('/Users/paulahofmann/Documents/Coding/Online-Review/DataPreperation/Meta_utilitarian_razor.csv', index=False)
+meta_data_Review.to_csv('/Users/paulahofmann/Documents/Coding/Online-Review/DataPreperation/Meta_hedonic.csv', index=False)
