@@ -102,32 +102,40 @@ def average_words_per_sentence(df):
 
 
 
-# Function for Title Length (TL)
+# Function for Title Length (TL), sets 0 if the title is empty/consists of only a special character
 def title_length(df):
     # Count the number of titles
-    df['title_length'] = df['title_x'].apply(lambda x: len(x))
+    df['title_length'] = df['title_x'].apply(lambda x: len(x) if x.strip().isalnum() else 1)
     return df
 
 
-
+# Function for calculating the Flesch-Kincaid readability score
 def calculate_flesch_kincaid(df):
-    # Initialize Readability object with the text
+    # Import the Readability library
+    from readability import Readability
+    from readability.exceptions import ReadabilityException
+
+    # Initialize an empty list to store readability scores
     readability_scores = []
 
+    # Iterate through each text in the DataFrame
     for text in df['text']:
-        # Check if the text contains at least 100 words
-        if len(text.split()) >= 100:
-            r = Readability(text)
+        try:
             # Calculate the Flesch-Kincaid score
+            r = Readability(text)
             score = r.flesch_kincaid().score
-            readability_scores.append(score)
-        else:
-            # If the text has fewer than 100 words, append NaN
-            readability_scores.append(float('nan'))
+        except ReadabilityException:
+            # If the ReadabilityException occurs (due to less than 100 words), set score to NaN
+            score = float('nan')
+        
+        # Append the score to the list of readability scores
+        readability_scores.append(score)
 
-    # Add the Flesch-Kincaid score as a new column to the DataFrame
-    df['F–K_score'] = readability_scores
+    # Add the readability scores as a new column to the DataFrame
+    df['F-K_score'] = readability_scores
+
     return df
+
 
 
 # Function for calculating the review extremity score (Difference between avg Rating and Rating)
@@ -138,7 +146,7 @@ def calculate_review_extremity(df):
 
 
 
-# Caöculate the elapsed time since the review was posted
+# Calculate the elapsed time since the review was posted
 def calculate_elapsed_time(df):
     # Convert timestamp column to datetime format
     df['timestamp'] = pd.to_datetime(df['timestamp'])
@@ -151,6 +159,11 @@ def calculate_elapsed_time(df):
     
     return df
 
+# Function for checking whether the review contains images
+def image_check(df):
+    # Check if the value in the "images" column is an empty list
+    df['image'] = df['images'].apply(lambda x: 0 if x == [] else 1)
+    return df
 
 
 ## Applying all functions to the dataframe
@@ -168,3 +181,5 @@ def feature_building(df):
     df = calculate_elapsed_time(df)
 
     return df
+
+
