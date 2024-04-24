@@ -182,6 +182,14 @@ def extract_timestamp(df):
     return df
 
 
+# Function for verifying verified_purchase
+def verified_purchase(df):
+    # Check if the value in the "images" column is an empty list
+    df['verified_pur'] = df['verified_purchase'].apply(lambda x: 0 if x == "false" else 1)
+    return df
+
+
+
 
 ## Applying all functions to the dataframe
 
@@ -197,6 +205,7 @@ def feature_building(df):
     df = calculate_review_extremity(df)
     df = calculate_elapsed_time(df)
     df = image_check(df)
+    df = verified_purchase(df)
     df = extract_timestamp(df)
     return df
 
