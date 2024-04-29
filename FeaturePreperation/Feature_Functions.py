@@ -167,6 +167,11 @@ def image_check(df):
     return df
 
 
+def verified_pur(df):
+    # Check if the value in the "verified_purchase" column is True or False
+    df['VerPurch'] = df['verified_purchase'].apply(lambda x: 1 if x else 0)
+    return df
+
 
 # Function for updating timestamp information
 def extract_timestamp(df):
