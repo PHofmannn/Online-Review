@@ -77,7 +77,7 @@ def sentence_count(df):
         sentences = nltk.sent_tokenize(text)
         return len(sentences)
 
-    df['sentence_count'] = df['text'].apply(count_sentences)
+    df['sent_count'] = df['text'].apply(count_sentences)
     return df
 
 
@@ -97,7 +97,7 @@ def average_words_per_sentence(df):
             return total_words / num_sentences
 
     # Apply the function to the 'text' column to calculate average words per sentence
-    df['avg_words_per_sentence'] = df.apply(lambda row: calculate_avg_words_per_sentence(row['text'], row['sentence_count']), axis=1)
+    df['sent_length'] = df.apply(lambda row: calculate_avg_words_per_sentence(row['text'], row['sent_count']), axis=1)
     return df
 
 
@@ -132,7 +132,7 @@ def calculate_flesch_kincaid(df):
         readability_scores.append(score)
 
     # Add the readability scores as a new column to the DataFrame
-    df['F-K_score'] = readability_scores
+    df['FRE'] = readability_scores
 
     return df
 
@@ -141,7 +141,7 @@ def calculate_flesch_kincaid(df):
 # Function for calculating the review extremity score (Difference between avg Rating and Rating)
 def calculate_review_extremity(df):
     # Calculate the review extremity as the difference between review rating and average product rating
-    df['review_extremity'] = df['rating'] - df['average_rating']
+    df['review_ext'] = df['rating'] - df['average_rating']
     return df
 
 
@@ -155,7 +155,7 @@ def calculate_elapsed_time(df):
     recent_timestamp = df['timestamp'].max()
     
     # Calculate elapsed time for each review in days
-    df['elapsed_time_days'] = (recent_timestamp - df['timestamp']).dt.days
+    df['elap_days'] = (recent_timestamp - df['timestamp']).dt.days
     
     return df
 
@@ -167,9 +167,9 @@ def image_check(df):
     return df
 
 
-def verified_pur(df):
-    # Check if the value in the "verified_purchase" column is True or False
-    df['VerPurch'] = df['verified_purchase'].apply(lambda x: 1 if x else 0)
+def verified_purchase(df):
+    # Convert boolean values to integers (0 for False, 1 for True)
+    df['ver_purch'] = df['verified_purchase'].astype(int)
     return df
 
 
@@ -187,11 +187,12 @@ def extract_timestamp(df):
     return df
 
 
-# Function for verifying verified_purchase
+# Function for transforming verified purchase column to integer
 def verified_purchase(df):
-    # Check if the value in the "images" column is an empty list
-    df['verified_pur'] = df['verified_purchase'].apply(lambda x: 0 if x == "false" else 1)
+    # Convert boolean values to integers (0 for False, 1 for True)
+    df['ver_purch'] = df['verified_purchase'].astype(int)
     return df
+
 
 
 
