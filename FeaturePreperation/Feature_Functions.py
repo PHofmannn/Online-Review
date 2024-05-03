@@ -181,8 +181,13 @@ def extract_timestamp(df):
     # Extract year, month, and day from the timestamp
     df['year'] = df['timestamp'].dt.year
     df['month'] = df['timestamp'].dt.month
-    df['day'] = df['timestamp'].dt.day
     df['hour'] = df['timestamp'].dt.hour
+
+    # Extract the day of the week (0 = Monday, 1 = Tuesday, ..., 6 = Sunday)
+    df['day_of_week'] = df['timestamp'].dt.dayofweek
+    
+    # Check if the day of the week is Saturday (5) or Sunday (6)
+    df['is_weekend'] = df['day_of_week'].isin([5, 6]).astype(int)
 
     return df
 
@@ -192,9 +197,6 @@ def verified_purchase(df):
     # Convert boolean values to integers (0 for False, 1 for True)
     df['ver_purch'] = df['verified_purchase'].astype(int)
     return df
-
-
-
 
 
 ## Applying all functions to the dataframe
