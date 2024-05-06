@@ -123,7 +123,7 @@ def calculate_flesch_kincaid(df):
         try:
             # Calculate the Flesch-Kincaid score
             r = Readability(text)
-            score = r.flesch_kincaid().score
+            score = r.flesch().score
         except ReadabilityException:
             # If the ReadabilityException occurs (due to less than 100 words), set score to NaN
             score = float('nan')
