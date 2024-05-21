@@ -3,6 +3,7 @@ import pandas as pd
 from readability import Readability
 import nltk
 import re
+import textstat
 nltk.download('punkt')
 
 
@@ -109,23 +110,18 @@ def title_length(df):
     return df
 
 
-# Function for calculating the flesch_reading_score
+# Function for calculating the Flesch Reading Ease score
 def calculate_flesch_reading_score(df):
-    # Import the Readability library
-    from readability import Readability
-    from readability.exceptions import ReadabilityException
-
     # Initialize an empty list to store readability scores
     readability_scores = []
 
     # Iterate through each text in the DataFrame
     for text in df['text']:
         try:
-            # Calculate the Flesch Reading Score
-            r = Readability(text)
-            score = r.flesch().score
-        except ReadabilityException:
-            # If the ReadabilityException occurs (due to less than 100 words), set score to NaN
+            # Calculate the Flesch Reading Ease score using textstat
+            score = textstat.flesch_reading_ease(text)
+        except Exception as e:
+            # If any exception occurs, set score to NaN
             score = float('nan')
         
         # Append the score to the list of readability scores
