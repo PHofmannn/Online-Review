@@ -109,8 +109,8 @@ def title_length(df):
     return df
 
 
-# Function for calculating the Flesch-Kincaid readability score
-def calculate_flesch_kincaid(df):
+# Function for calculating the flesch_reading_score
+def calculate_flesch_reading_score(df):
     # Import the Readability library
     from readability import Readability
     from readability.exceptions import ReadabilityException
@@ -121,7 +121,7 @@ def calculate_flesch_kincaid(df):
     # Iterate through each text in the DataFrame
     for text in df['text']:
         try:
-            # Calculate the Flesch-Kincaid score
+            # Calculate the Flesch Reading Score
             r = Readability(text)
             score = r.flesch().score
         except ReadabilityException:
@@ -209,7 +209,7 @@ def feature_building(df):
     df = sentence_count(df)
     df = average_words_per_sentence(df)
     df = title_length(df)
-    df = calculate_flesch_kincaid(df)
+    df = calculate_flesch_reading_score(df)
     df = calculate_review_extremity(df)
     df = calculate_elapsed_time(df)
     df = image_check(df)
