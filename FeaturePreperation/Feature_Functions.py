@@ -8,14 +8,16 @@ nltk.download('punkt')
 
 
 
-# Function for calculating the helfpul ratio (HR) of a review
 def calculate_helpful_ratio(df):
-    # Calculate the total number of helpful votes across all reviews
-    total_helpful_votes = df['helpful_vote'].sum()
+    # Group by product and calculate the total helpful votes for each product
+    product_totals = df.groupby('product')['helpful_vote'].sum().rename('total_helpful_votes').reset_index()
     
-    # Calculate the ratio of helpful votes for each review relative to the total
-    df['helpful_ratio'] = df['helpful_vote'] / total_helpful_votes
+    # Merge the total helpful votes back into the original dataframe
+    df = df.merge(product_totals, on='product')
     
+    # Calculate the helpful ratio for each review relative to the total helpful votes of its product
+    df['helpful_ratio'] = df['helpful_vote'] / df['total_helpful_votes']
+
     return df
 
 
