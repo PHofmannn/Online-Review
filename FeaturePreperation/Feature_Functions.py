@@ -8,17 +8,15 @@ nltk.download('punkt')
 
 
 
-def calculate_helpful_ratio(df):
-    # Group by product and calculate the total helpful votes for each product
-    product_totals = df.groupby('product')['helpful_vote'].sum().rename('total_helpful_votes').reset_index()
-    
-    # Merge the total helpful votes back into the original dataframe
-    df = df.merge(product_totals, on='product')
-    
-    # Calculate the helpful ratio for each review relative to the total helpful votes of its product
-    df['helpful_ratio'] = df['helpful_vote'] / df['total_helpful_votes']
+# Function for calculating the helpful ratio
+def calculate_total_helpful_votes(df):
+    for product_id, group in df.groupby('product'):
+        total_helpful_votes = group['helpful_vote'].sum()
+        df.loc[group.index, 'total_helpful_votes'] = total_helpful_votes
+        df.loc[group.index, 'helpful_ratio'] = group['helpful_vote'] / total_helpful_votes
 
     return df
+
 
 
 # Load spaCy English model and prepare function to get the POS tags  for counting adverbs, adjectives and nouns
