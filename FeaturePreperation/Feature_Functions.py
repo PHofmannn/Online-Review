@@ -142,16 +142,12 @@ def calculate_review_extremity(df):
 
 
 
-# Calculate the elapsed time since the review was posted
 def calculate_elapsed_time(df):
     # Convert timestamp column to datetime format
     df['timestamp'] = pd.to_datetime(df['timestamp'])
     
-    # Find the most recent timestamp
-    recent_timestamp = df['timestamp'].max()
-    
-    # Calculate elapsed time for each review in days
-    df['elap_days'] = (recent_timestamp - df['timestamp']).dt.days
+    # Group by product and calculate elapsed time
+    df['elap_days'] = df.groupby('product')['timestamp'].transform(lambda x: (x.max() - x).dt.days)
     
     return df
 
@@ -199,7 +195,7 @@ def verified_purchase(df):
 
 def feature_building(df):
     # Apply all individual functions to the DataFrame
-    df = calculate_helpful_ratio(df)
+    df = calculate_total_helpful_votes(df)
     df = count_pos_tags(df)
     df = word_count(df)
     df = sentence_count(df)
