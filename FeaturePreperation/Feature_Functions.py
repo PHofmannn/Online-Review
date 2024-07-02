@@ -145,7 +145,7 @@ def calculate_elapsed_time(df):
     df['timestamp'] = pd.to_datetime(df['timestamp'])
     
     # Group by product and calculate elapsed time
-    df['elap_days'] = df.groupby('product')['timestamp'].transform(lambda x: (x.max() - x).dt.days)
+    df['ElapDays'] = df.groupby('product')['timestamp'].transform(lambda x: (x.max() - x).dt.days)
     
     return df
 
@@ -153,7 +153,7 @@ def calculate_elapsed_time(df):
 # Function for checking whether the review contains images
 def image_check(df):
     # Check if the value in the "images" column is an empty list
-    df['image'] = df['images'].apply(lambda x: 0 if x == "[]" else 1)
+    df['Image'] = df['images'].apply(lambda x: 0 if x == "[]" else 1)
     return df
 
 # Function for transforming verified purchase column to integer
