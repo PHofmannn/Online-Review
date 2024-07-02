@@ -6,8 +6,6 @@ import re
 import textstat
 nltk.download('punkt')
 
-
-
 # Function for calculating the helpful ratio
 def calculate_total_helpful_votes(df):
     for product_id, group in df.groupby('product'):
@@ -62,7 +60,7 @@ def word_count(df):
         return len(words)
 
     # Apply the function to the 'text' column to calculate word counts
-    df['word_count'] = df['text'].apply(count_words)
+    df['WordC'] = df['text'].apply(count_words)
     return df
 
 
@@ -78,7 +76,7 @@ def sentence_count(df):
         sentences = nltk.sent_tokenize(text)
         return len(sentences)
 
-    df['sent_count'] = df['text'].apply(count_sentences)
+    df['SentC'] = df['text'].apply(count_sentences)
     return df
 
 
@@ -98,7 +96,7 @@ def average_words_per_sentence(df):
             return total_words / num_sentences
 
     # Apply the function to the 'text' column to calculate average words per sentence
-    df['sent_length'] = df.apply(lambda row: calculate_avg_words_per_sentence(row['text'], row['sent_count']), axis=1)
+    df['SentL'] = df.apply(lambda row: calculate_avg_words_per_sentence(row['text'], row['SentC']), axis=1)
     return df
 
 
@@ -106,7 +104,7 @@ def average_words_per_sentence(df):
 # Function for Title Length (TL), sets 0 if the title is empty/consists of only a special character
 def title_length(df):
     # Count the number of titles
-    df['title_length'] = df['title_x'].apply(lambda x: len(x) if x.strip().isalnum() else 1)
+    df['TitleL'] = df['title_x'].apply(lambda x: len(x) if x.strip().isalnum() else 1)
     return df
 
 
@@ -137,7 +135,7 @@ def calculate_flesch_reading_score(df):
 # Function for calculating the review extremity score (Difference between avg Rating and Rating)
 def calculate_review_extremity(df):
     # Calculate the review extremity as the difference between review rating and average product rating
-    df['review_ext'] = df['rating'] - df['average_rating']
+    df['RewExt'] = df['Rating'] - df['average_rating']
     return df
 
 
@@ -158,10 +156,10 @@ def image_check(df):
     df['image'] = df['images'].apply(lambda x: 0 if x == "[]" else 1)
     return df
 
-
+# Function for transforming verified purchase column to integer
 def verified_purchase(df):
     # Convert boolean values to integers (0 for False, 1 for True)
-    df['ver_purch'] = df['verified_purchase'].astype(int)
+    df['VerPur'] = df['verified_purchase'].astype(int)
     return df
 
 
@@ -181,13 +179,6 @@ def extract_timestamp(df):
     # Check if the day of the week is Saturday (5) or Sunday (6)
     df['is_weekend'] = df['day_of_week'].isin([5, 6]).astype(int)
 
-    return df
-
-
-# Function for transforming verified purchase column to integer
-def verified_purchase(df):
-    # Convert boolean values to integers (0 for False, 1 for True)
-    df['ver_purch'] = df['verified_purchase'].astype(int)
     return df
 
 
