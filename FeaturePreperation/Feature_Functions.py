@@ -8,7 +8,7 @@ nltk.download('punkt')
 
 # Function for calculating the helpful ratio
 def calculate_total_helpful_votes(df):
-    for product_id, group in df.groupby('product'):
+    for Prod, group in df.groupby('Prod'):
         total_helpful_votes = group['helpful_vote'].sum()
         df.loc[group.index, 'total_helpful_votes'] = total_helpful_votes
         df.loc[group.index, 'helpful_ratio'] = group['helpful_vote'] / total_helpful_votes
