@@ -1,7 +1,7 @@
 # 🔬 Analyzing the Effect of Product Type on the Perceived Helpfulness of Online Reviews
 
 Welcome to the repository for my master's thesis:
-"Unveiling the Influence of Product Type on Review Helpfulness: An Analysis between Hedonic and Utilitarian Products using XGBoost"
+>"Unveiling the Influence of Product Type on Review Helpfulness: An Analysis between Hedonic and Utilitarian Products using XGBoost"
 
 This repository contains all the code, analyses, and methodologies used to evaluate how review helpfulness varies between hedonic (pleasure-oriented) and utilitarian (functionality-oriented) products.
 
