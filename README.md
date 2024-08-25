@@ -78,14 +78,18 @@ This section focuses on the length of reviews, both in terms of word count and s
 ![Review Lengths](./3%20Data%20Analysis/ViolinPlot.png)
 
 
-# 📈 Model Building and Class Imbalance Handling
+#  🤖 Model Building 
 
-Given the imbalance between review types (hedonic vs. utilitarian), **SMOTE (Synthetic Minority Over-sampling Technique)** was applied to balance the dataset. After applying SMOTE, hyperparameter tuning was conducted to build an optimal model that yielded the best performance for both product types.
+This section presents the findings related to the model building steps, moreover it presente the SHAP plot, to evalute features of  **hedonic** and **utilitarian** product reviews. 
+
+##  Handling Class Imbalance  
+
+Given the imbalance between review types (hedonic vs. utilitarian), **SMOTE (Synthetic Minority Over-sampling Technique)** was applied to balance the dataset before model deployment. After applying SMOTE, two approaches were used: Logistic Regression and XGBoost. Hyperparameter tuning was conducted to build an optimal model that yielded the best performance for both product types.
 
 - **SMOTE**: This technique oversamples the minority class (utilitarian products) to mitigate the imbalance and improve model learning.
 - **Hyperparameter Tuning**: The model parameters were fine-tuned using Bayesian Optimization to maximize the performance for both product types.
 
-# Model Interpretation with SHAP Values
+##  SHAP value analysis 
 
 To interpret the model's predictions, **SHAP values** were employed. SHAP values provide insights into how different features influence the model's predictions for both hedonic and utilitarian products. 
 
