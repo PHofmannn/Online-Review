@@ -45,47 +45,27 @@ In the following are some of the important findings:
 
 This section presents an analysis of various features such as rating, sentiment, word count, and sentence length, in relation to two types of products: **hedonic** (pleasure-oriented) and **utilitarian** (functionality-oriented). 
 
-## 1. Rating Distribution
+## 1. Rating & Sentiment Distribution
 
 - **Key Insights**:
-  - Hedonic products are more likely to receive extreme ratings, particularly higher ratings (rating 5).
-  - Utilitarian products tend to receive lower ratings (rating 1) more frequently than hedonic products.
+  - Hedonic products are more likely to receive extreme ratings, particularly higher ratings (rating 5) and have a higher proportion of **positive sentiment** in reviews.
+  - Utilitarian products tend to receive lower ratings (rating 1) and more **negative sentiment** compared with hedonic products
 
 - **Implications**:
   - Consumers are more likely to provide highly positive feedback for hedonic products, whereas utilitarian products often receive more critical reviews.
+  - This suggests that customers are more positive emotionally invested in hedonic products and may express dissatisfaction with functional products when they do not meet practical expectations.
 
 ![Rating Distribution](./3%20Data%20Analysis/Helpful_Rating.png)
 
 ---
 
-## 2. Sentiment Distribution
-
-- **Key Insights**:
-  - Reviews for utilitarian products often have more **negative sentiment** compared to hedonic products.
-  - Hedonic products have a higher proportion of **positive sentiment** in reviews.
-
-- **Implications**:
-  - This suggests that customers are more emotionally invested in hedonic products and may express dissatisfaction with functional products when they do not meet practical expectations.
-
-![Sentiment Distribution](./3%20Data%20Analysis/Helpful_Rating.png)
-
----
-
-### 3. Review Lengths (Word Count & Sentence Length)
+### 2. Review Lengths (Word Count & Sentence Length)
 
 This section focuses on the length of reviews, both in terms of word count and sentence length, comparing **helpful** and **unhelpful** reviews for both product types.
 
-#### 3.1 Word Count
-
 - **Key Insights**:
-  - Helpful reviews for both product types (hedonic and utilitarian) tend to have higher word counts.
-  - There is little difference in word count between product types.
-
-#### 3.2 Sentence Length
-
-- **Key Insights**:
-  - Helpful reviews also feature longer sentences on average.
-  - Sentence length doesn't differ much between product types but is longer in helpful reviews for both types.
+  - Helpful reviews for both product types (hedonic and utilitarian) tend to have higher word counts and feature longer sentences on average.
+  - There is little difference in word count and sentence length between product types.
 
 - **Implications**:
   - More detailed and longer reviews, both in terms of word count and sentence complexity, tend to be perceived as more helpful regardless of the product type.
@@ -98,13 +78,13 @@ This section focuses on the length of reviews, both in terms of word count and s
 Given the imbalance between review types (hedonic vs. utilitarian), **SMOTE (Synthetic Minority Over-sampling Technique)** was applied to balance the dataset. After applying SMOTE, hyperparameter tuning was conducted to build an optimal model that yielded the best performance for both product types.
 
 - **SMOTE**: This technique oversamples the minority class (utilitarian products) to mitigate the imbalance and improve model learning.
-- **Hyperparameter Tuning**: The model parameters were fine-tuned using cross-validation to maximize the performance for both product types.
+- **Hyperparameter Tuning**: The model parameters were fine-tuned using Bayesian Optimization to maximize the performance for both product types.
 
 # Model Interpretation with SHAP Values
 
 To interpret the model's predictions, **SHAP values** were employed. SHAP values provide insights into how different features influence the model's predictions for both hedonic and utilitarian products. 
 
-The SHAP plot highlights how specific features (e.g., word count, sentiment, rating) contribute to the model’s predictions. This allows us to understand which aspects of the reviews (e.g., positive sentiment or longer reviews) have the most impact on predicting helpfulness for different product types.
+The SHAP plot highlights how specific features (e.g., word count, sentiment, rating) contribute to the model’s predictions. This allows us to understand which aspects of the reviews (e.g., positive sentiment or longer reviews) have the most impact on predicting helpfulness for different product types. The SHAP plot is seen in the figure: 
 
 ![SHAP Values](./4%20Model%20Building/ShapValues.jpg)
 
