@@ -1,25 +1,24 @@
-# Analyzing the effect of product type on the pereceived helpfulness of online reviews
+# 🔬 Analyzing the Effect of Product Type on the Perceived Helpfulness of Online Reviews
 
-This repository contains the code for my master thesis
-"Unveiling the Influence of Product Type on Review Helpfulness: An Analysis between
-Hedonic and Utilitarian Products using XGBoost"
-    
-This code covers the entire workflow from data selection to preparation, feature engineering, and model deployment for both hedonic and utilitarian data. It includes methods for detailed result analysis and general implementation practices. For a comprehensive overview of the code and methodology, please refer to the details below.
+Welcome to the repository for my master's thesis:
+"Unveiling the Influence of Product Type on Review Helpfulness: An Analysis between Hedonic and Utilitarian Products using XGBoost"
 
-# Abstract
+This repository contains all the code, analyses, and methodologies used to evaluate how review helpfulness varies between hedonic (pleasure-oriented) and utilitarian (functionality-oriented) products.
+
+# 📝 Abstract
 Online reviews have become a crucial factor in shaping consumer purchasing decisions, providing insights into product features and helping mitigate information asymmetry in digital marketplaces. This work explores the impact of online reviews on consumer behavior, with a focus on the distinction between utilitarian and hedonic products. A comprehensive framework is developed to assess how review helpfulness varies by product type. Advanced machine learning techniques, such as XGBoost and logistic regression, combined with SHAP value analysis, are employed to analyze the effectiveness of various review features in predicting helpfulness. The methodology is validated through practical examples and rigorous tests, revealing significant insights into feature importance and the varying impacts of review helpfulness on utilitarian versus hedonic products. These findings enhance the understanding of consumer behavior and provide actionable recommendations for optimizing review strategies on e-commerce platforms.
  
-# Repository structure
+# 🛠 Repository Structure
 
 | Folder | Description |
 | --- | ---------| 
 | `1 Data Selection` | Includes the process of selecting review data for both hedonic and utilitarian products. |
 | `2 Feature Preperation` | Details the evaluation of 15 features that describe review helpfulness. |
-| `3 Data Analysis` |  Provides descriptive insights into the feature distribution and the helpfulnes s distribution. |
+| `3 Data Analysis` |  Provides descriptive insights into the feature distribution and the helpfulness distribution. |
 | `4 Model Building` | Encompasses the deployment of classification models for predicting helpfulness, along with code for SHAP value analysis. |
 
 
-# Data
+# 📊 Data
 
 The dataset used in this analysis is the Amazon Reviews dataset collected by McAuley Lab in 2023, available at https://amazon-reviews-2023.github.io/.
 
@@ -30,7 +29,7 @@ This extensive dataset encompasses over 571.54 million online reviews, categoriz
 Due to the large size of the files, only the final processed dataset is provided here.
 
 
-# Methodology
+# 🔬 Methodology
 
 This thesis makes the following contributions:
 
@@ -41,7 +40,7 @@ Conducting SHAP value analysis to evaluate the importance of different features 
 In the following are some of the important findings:
 
 
-# Findings on Features in Relation to Product Type
+# 📈 Key Figures & Visualizations
 
 This section presents an analysis of various features such as rating, sentiment, word count, and sentence length, in relation to two types of products: **hedonic** (pleasure-oriented) and **utilitarian** (functionality-oriented). 
 
@@ -59,7 +58,7 @@ This section presents an analysis of various features such as rating, sentiment,
 
 ---
 
-### 2. Review Lengths (Word Count & Sentence Length)
+## 2. Review Lengths (Word Count & Sentence Length)
 
 This section focuses on the length of reviews, both in terms of word count and sentence length, comparing **helpful** and **unhelpful** reviews for both product types.
 
@@ -73,7 +72,7 @@ This section focuses on the length of reviews, both in terms of word count and s
 ![Review Lengths](./3%20Data%20Analysis/ViolinPlot.png)
 
 
-# Model Building and Class Imbalance Handling
+# 📈 Model Building and Class Imbalance Handling
 
 Given the imbalance between review types (hedonic vs. utilitarian), **SMOTE (Synthetic Minority Over-sampling Technique)** was applied to balance the dataset. After applying SMOTE, hyperparameter tuning was conducted to build an optimal model that yielded the best performance for both product types.
 
@@ -93,13 +92,18 @@ The SHAP plot highlights how specific features (e.g., word count, sentiment, rat
 
 
 
-## Conclusion
+# 🎯 Conclusion
 
-The findings highlight distinct patterns in how customers rate and review hedonic versus utilitarian products. However, both types of products are primarily influenced by review depth, age, and rating extremity. These findings align with previous studies indicating that only a few features significantly impact review helpfulness (Meng et al., 2020), emphasizing the importance of detailed reviews (Mudambi and Schuff, 2010). Other factors driving review helpfulness differ between the two product categories.
+In summary, this research highlights significant differences between hedonic and utilitarian product reviews, providing a nuanced understanding of what makes a review helpful.
 
-- **Hedonic Products**: Helpful reviews benefit when there is a low review volume, subjective and moderately older reviews, with accompanying images, short titles, and rich use of nouns to enhance emotional engagement.
-  
-- **Utilitarian Products**: Helpful reviews tend to have a larger volume, are more recent, and contain critical evaluations with a negatively emotional tone. This helps consumers make well-informed decisions.
+Key Findings:
+- **Hedonic Products Reviews**: More subjective, emotionally engaging, and benefit from low volume with rich content (images, emotional language).
+- **Utilitarian Product Reviews**: Critical, rational, and focus on aiding decision-making with recent, factual reviews.
+
+These insights can guide e-commerce platforms in refining their review filtering and recommendation algorithms, ultimately enhancing the consumer shopping experience. Further Research could investigate the interaction between features and how they jointly impact review helpfulness.
 
 
-___
+# 🔗 References
+
+Meng et al. (2020): The impact of review features on helpfulness in e-commerce.
+Mudambi and Schuff (2010): What makes a helpful online review?
