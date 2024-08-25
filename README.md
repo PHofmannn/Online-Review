@@ -34,11 +34,16 @@ Due to the large size of the files, only the final processed dataset is provided
 
 This thesis makes the following contributions:
 
-Assessing the impact of product type on the helpfulness of reviews.
-Investigating classification approaches for predicting review helpfulness, specifically using XGBoost and Logistic Regression.
-Conducting SHAP value analysis to evaluate the importance of different features in products.
+1. **Impact of Product Type on Review Helpfulness**
+   - Analyze how different product types affect the perceived helpfulness of reviews.
 
-In the following are some of the important findings:
+2. **Classification Approaches**
+   - Implement and compare classification models for predicting review helpfulness:
+     - `XGBoost`
+     - `Logistic Regression`
+
+3. **Feature Importance Analysis**
+   - Perform SHAP value analysis to evaluate the importance of various review features across product types.
 
 
 # 📈 Key Figures & Visualizations
