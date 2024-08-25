@@ -8,11 +8,13 @@ nltk.download('punkt')
 
 # Function for calculating the helpful ratio
 def calculate_total_helpful_votes(df):
-    for Prod, group in df.groupby('Prod'):
-        total_helpful_votes = group['helpful_vote'].sum()
-        df.loc[group.index, 'total_helpful_votes'] = total_helpful_votes
-        df.loc[group.index, 'helpful_ratio'] = group['helpful_vote'] / total_helpful_votes
-
+    # Calculate total helpful votes per product category
+    total_helpful_votes_per_product = df.groupby('product')['helpful_vote'].transform('sum')
+    
+    # Calculate helpful ratio
+    df['total_helpful_votes'] = total_helpful_votes_per_product
+    df['helpful_ratio'] = df['helpful_vote'] / df['total_helpful_votes']
+    
     return df
 
 
@@ -131,6 +133,14 @@ def calculate_flesch_reading_score(df):
     return df
 
 
+# Transforming adverb,adjective, and noun counts into ratios for better comparability
+def calculate_ratios(df):
+    df['NounR'] = df['noun_count'] / df['WordC']
+    df['AdjR'] = df['adj_count'] / df['WordC']
+    df['AdvR'] = df['adv_count'] / df['WordC']
+    return df
+
+
 
 # Function for calculating the review extremity score (Difference between avg Rating and Rating)
 def calculate_review_extremity(df):
@@ -159,7 +169,7 @@ def image_check(df):
 # Function for transforming verified purchase column to integer
 def verified_purchase(df):
     # Convert boolean values to integers (0 for False, 1 for True)
-    df['VerPur'] = df['verified_purchase'].astype(int)
+    df['VerPur'] = df['Verified_Purchase'].astype(int)
     return df
 
 
@@ -198,6 +208,7 @@ def feature_building(df):
     df = image_check(df)
     df = verified_purchase(df)
     df = extract_timestamp(df)
+    df = calculate_ratios(df)
     return df
 
 
